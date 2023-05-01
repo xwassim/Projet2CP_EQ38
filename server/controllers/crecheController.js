@@ -71,7 +71,11 @@ const createCreche = asyncHandler(async (req, res) => {
     // create the creche
     else {
         // get the id of the user who created the creche
-        const token = req.cookies.jwt;
+        const authHeader = req.headers.authorization || req.headers.Authorization;
+        if (!authHeader?.startsWith('Bearer ')) {
+            return res.status(401).json({ message: 'Not authorized1' });
+        }
+        const token = authHeader.split(' ')[1];
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         const id = decoded.user._id;
         //associate the creche with the user with that id
@@ -106,7 +110,11 @@ const createCreche = asyncHandler(async (req, res) => {
 
 const deleteCreche = asyncHandler(async (req, res) => {
     const creche = await Creche.findOne({_id: req.params.id});
-    const token = req.cookies.jwt;
+    const authHeader = req.headers.authorization || req.headers.Authorization;
+    if (!authHeader?.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'Not authorized1' });
+    }
+    const token = authHeader.split(' ')[1];
     const decoded = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const id = stringify(decoded.user._id);
     const x = stringify(creche.Proprietaire);
@@ -126,7 +134,11 @@ const deleteCreche = asyncHandler(async (req, res) => {
 
 const updateCreche = asyncHandler(async (req, res) => {
     const creche = await Creche.findOne({_id: req.params.id});
-    const token = req.cookies.jwt;
+    const authHeader = req.headers.authorization || req.headers.Authorization;
+    if (!authHeader?.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'Not authorized1' });
+    }
+    const token = authHeader.split(' ')[1];
     const decoded = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const id = stringify(decoded.user._id);
     const x = stringify(creche.Proprietaire);
@@ -239,13 +251,17 @@ const updateCreche = asyncHandler(async (req, res) => {
     }
 });
 const consultCreche = asyncHandler(async (req, res) => {
-    const jwt = req.cookies.jwt;
-    const decoded = await jwt.verify(jwt, process.env.ACCESS_TOKEN_SECRET);
+    const authHeader = req.headers.authorization || req.headers.Authorization;
+    if (!authHeader?.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'Not authorized1' });
+    }
+    const token = authHeader.split(' ')[1];
+    const decoded = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const user = await decoded.user;
     //get all creches that are owned by the user as a table containing the creches
     const creches = await Creche.find({Proprietaire: user._id});
     //send the table to the front end
-    res.json(creches);
+    res.status(200).json(creches);
 });
 
 module.exports = {

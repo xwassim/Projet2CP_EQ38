@@ -1,7 +1,11 @@
 const requirePropreateRole = (role) => {
     return (req, res, next) => {
-        if (req.user.role !== role) {
-            res.status(401).json({ message: 'Not authorized' });
+        // the role could be an array or a single string
+        if (typeof role === 'string') {
+            role = [role];
+        }
+        if (!role.includes(req.user.role)) {
+            return res.status(403).json({ message: 'Not authorized' });
         }
         next();
     }

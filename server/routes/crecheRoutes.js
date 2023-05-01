@@ -5,7 +5,8 @@ const verifyJWT = require('../middleware/verifyJWT');
 const reauirePropriateRole = require('../middleware/autherization');
 
 router.use(verifyJWT);
-router.use(reauirePropriateRole(['proprietaire', 'admin']));
+//the roles that can access to this route are admin and proprietaire
+router.use(reauirePropriateRole(['admin', 'proprietaire']));
 
 router.route('/create').post(crecheController.createCreche);
 router.route('/delete/:id').delete(crecheController.deleteCreche);
