@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const crecheController = require('../controllers/crecheController');
-const { requireAuth, requireAdmin, requireProprietaire } = require('../middleware/autherization');
+const verifyJWT = require('../middleware/verifyJWT');
+const reauirePropriateRole = require('../middleware/autherization');
 
+router.use(verifyJWT);
+router.use(reauirePropriateRole(['proprietaire', 'admin']));
 
 router.route('/create').post(crecheController.createCreche);
 router.route('/delete/:id').delete(crecheController.deleteCreche);

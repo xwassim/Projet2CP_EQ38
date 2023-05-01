@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const enfantController = require('../controllers/enfantController');
-const {requireAuth} = require('../middleware/autherization');
+const verifyJWT = require('../middleware/verifyJWT');
 
-router.get('/', requireAuth, enfantController.getEnfant);
-router.post('/creer', requireAuth, enfantController.creeEnfant);
-router.delete('supp/:id', requireAuth, enfantController.supprimeEnfant);
-router.post('ajouter/:id', requireAuth, enfantController.ajouteCreche);
-router.put('modifier/:id', requireAuth, enfantController.modifieEnfant);
+router.use(verifyJWT);
+router.get('/', enfantController.getEnfant);
+router.post('/creer', enfantController.creeEnfant);
+router.delete('supp/:id', enfantController.supprimeEnfant);
+router.post('ajouter/:id', enfantController.ajouteCreche);
+router.put('modifier/:id', enfantController.modifieEnfant);
 
 module.exports = router;

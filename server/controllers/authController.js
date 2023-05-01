@@ -14,7 +14,8 @@ const createToken = (res,user) => {
     const secret = process.env.ACCESS_TOKEN_SECRET;
     const expiresIn = process.env.ACCESS_EXPIRES_IN;
     const token =  jwt.sign(payload, secret , { expiresIn });
-    res.cookie('jwt', token, { httpOnly: true , maxAge: 15 * 60 * 1000});
+    //the res is json object that will be sent to the client
+    res.status(201).json({jwt : token });
 };
 const createRefreshToken = (res,user) => {
     const payload = { id: user._id };
@@ -34,11 +35,9 @@ const login = asyncHandler(async (req, res) => {
     try{
         const match = await bcrypt.compare(password, user.password);
          if(match){
-            const userWithoutPassword = user.toObject();
-            delete userWithoutPassword.password;
-            createToken(res,user);
-            createRefreshToken(res,user);
-            res.status(201).json({message: " user logged in  successfully " ,user : userWithoutPassword });
+             createRefreshToken(res,user);
+             createToken(res,user);
+
         }
         else {
             res.status(400).json({ message: 'Invalid password' });
@@ -66,34 +65,37 @@ const signup = asyncHandler(async (req, res) => {
         res.status(409).json({ message: 'Email already exists' });
     } else {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await User.create({ name, email, password: hashedPassword, role });
-        const userWithoutPassword = user.toObject();
-        delete userWithoutPassword.password;
-        res.status(201).json({ message: " user created successfully " ,user : userWithoutPassword });
+        await User.create({ name, email, password: hashedPassword, role });
+        res.status(201).json({ message: " user created successfully " });
     }
 });
 
 const logout = asyncHandler(async (req, res) => {
-    res.clearCookie('jwt');
     res.clearCookie('refreshToken');
     res.status(200).json({ message: 'Logged out successfully' });
 });
 
 const refresh = asyncHandler(async (req, res) => {
+// refresh the access token if the refresh token exists
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) {
-        res.status(401).json({ message: 'Invalid or expired refresh token' });
+        return res.status(401).json({message: ' token is required'});
     }
     try {
+        // verify the refresh token
         const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+        // check if the user still exists in the database
         const user = await User.findById(decoded.id);
         if (!user) {
-            res.status(401).json({ message: 'Invalid or expired refresh token' });
+            return res.status(401).json({message: 'User not found'});
         }
-        createToken(res,user);
+        // create new refresh and access token
         createRefreshToken(res,user);
-    } catch (err) {
-        res.status(401).json({ message: 'Invalid or expired refresh token' });
+        createToken(res,user);
+        res.status(201).json({message: " token refreshed successfully " });
+    }
+    catch (error) {
+        res.status(401).json({message: 'Invalid token'});
     }
 });
 
@@ -132,15 +134,7 @@ const resetPassword = asyncHandler(async (req, res) => {
     res.status(201).json({message: " password reset successfully " ,user : userWithoutPassword });
 });
 const changePassword = asyncHandler(async (req, res) => {
-    let accessToken = req.cookies.jwt;
-    if (!accessToken) {
-        const refreshToken = req.cookies.refreshToken;
-        if (!refreshToken) {
-            return res.status(401).json({message: ' token is required'});
-        }
-        refresh(req, res);
-        accessToken = req.cookies.jwt;
-    }
+    const accessToken = req.headers.authorization.split(' ')[1];
     const {oldPassword, newPassword} = req.body;
     if (!oldPassword || !newPassword ) {
         res.status(400).json({ message: 'Please fill all fields' });
