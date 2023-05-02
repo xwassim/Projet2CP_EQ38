@@ -1,6 +1,5 @@
 async function ParseQueryString( req,response,next) {
     const filters ={}
-    let TextFilter={}
     let geoFilter={}
     const queryParams =req.query;
   
@@ -8,10 +7,10 @@ async function ParseQueryString( req,response,next) {
     // queries For the entered Text in the Search bar
   
     if(queryParams.SearchBarInput){
-      TextFilter ={$text:{
+      Object.assign(filters,{$text:{
           $search: queryParams.SearchBarInput
-        }}
-        req.TextFilter = TextFilter;
+        }})
+
       }
     
     
