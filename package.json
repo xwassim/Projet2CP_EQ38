@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Islam-Remache/Projet2CP_EQ38/issues"
   },
-  "homepage": "https://github.com/Islam-Remache/Projet2CP_EQ38#readme"
+  "homepage": "https://github.com/Islam-Remache/Projet2CP_EQ38#readme",
+  "dependencies": {
+    "nodemon": "^2.0.22"
+  }
 }

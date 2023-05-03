@@ -6,6 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const crecheRoutes = require('./routes/crecheRoutes');
 const enfantRoutes = require('./routes/enfantRoutes');
 const cookieParser = require('cookie-parser');
+const reservationRoutes = require('./routes/reservationRoutes');
 dotenv.config();
 
 
