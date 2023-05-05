@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const reservationController =require('../controllers/reservationController');
-
-const Day = require("./models/day").model;
-const Reservation = require("./models/reservation").model;
+const verifyJWT = require('../middleware/verifyJWT');
+const Day = require("../models/day").model;
+const Reservation = require("../models/reservation").model;
 router.use(verifyJWT);
 router.route("/create").post(reservationController.createReservation);
 

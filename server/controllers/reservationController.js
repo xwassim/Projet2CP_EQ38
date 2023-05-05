@@ -1,4 +1,4 @@
-const Reservation = require('./models/reservation');
+const Reservation = require('../models/reservation');
 const asyncHandler = require('express-async-handler');
 const mongoose = require("mongoose");
 const jwt = require('jsonwebtoken');
@@ -109,5 +109,12 @@ const createReservation = asyncHandler(async (req, res, next) => {
   };
   
   
+  module.exports = {
+    createReservation,
+    confirmerReservation,
+    annulerReservation,
+    modifierDates,
+    getDetails
+  };
   
   
