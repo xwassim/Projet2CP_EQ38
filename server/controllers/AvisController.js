@@ -3,16 +3,19 @@ const mongoose = require('mongoose')
 
 
 
+
+
 async function commenter(req,response){
+
 
   const idUser = req.body.idUser;  
   const idCreche = req.body.idCreche;
   
-  const user = new mongoose.Types.ObjectId(idUser)
-  const ConcernedCreche = new mongoose.Types.ObjectId(idCreche)
+  const user =  mongoose.Types.ObjectId.createFromHexString(idUser)
+  const ConcernedCreche =   mongoose.Types.ObjectId.createFromHexString(idCreche)
   const existingAvis = await Avis.findOne({
-    IdUser:idUser,
-    IdCreche:idCreche
+    IdUser:user,
+    IdCreche:ConcernedCreche
   })
   
   try{
@@ -20,7 +23,7 @@ async function commenter(req,response){
           const newAvis = new  Avis({
               commentaire: [req.body.comm] ,
               IdUser: user,
-              IdCreche:ConcernedCreche,
+              IdCreche:ConcernedCreche
       });
 
       await newAvis.save()
@@ -46,11 +49,11 @@ async function Evaluer(req,response){
   
   const idUser = req.body.idUser;  
   const idCreche = req.body.idCreche;
-  
-  const user = new mongoose.Types.ObjectId(idUser)
-  const ConcernedCreche = new mongoose.Types.ObjectId(idCreche)
+  const user =  mongoose.Types.ObjectId.createFromHexString(idUser)
+  const ConcernedCreche =  mongoose.Types.ObjectId.createFromHexString(idCreche)
   const existingAvis = await Avis.findOne({
-    IdUser:idUser,IdCreche:idCreche
+    IdUser:user,
+    IdCreche:ConcernedCreche
   })
   
   try{
@@ -84,10 +87,13 @@ async function CommenterEtEvaluer(req,response){
   const idUser = req.body.idUser;  
   const idCreche = req.body.idCreche;
   
-  const user = new mongoose.Types.ObjectId(idUser)
-  const ConcernedCreche = new mongoose.Types.ObjectId(idCreche)
+  const user =  mongoose.Types.ObjectId.createFromHexString(idUser)
+  const ConcernedCreche =  mongoose.Types.ObjectId.createFromHexString(idCreche)
 
-  const existingAvis = await Avis.findOne({IdUser:idUser,IdCreche:idCreche})
+  const existingAvis = await Avis.findOne({
+    IdUser:user,
+    IdCreche:ConcernedCreche
+  })
   
   try{
       if(!existingAvis){
