@@ -8,6 +8,8 @@ import useRefreshToken from "../../../../hooks/useRefreshToken";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import AjoutCrecheSuccess from "../../../Functions/Success/AjoutCrecheSuccess";
+import {Communes} from '../../../../data'
+import { wilayaoptions } from "../../../../data";
 
 const FormCreche = (props) => {
   const [open, setOpen] = useState(false);
@@ -87,68 +89,7 @@ const FormCreche = (props) => {
   ];
 
 
-  const WilayaOptions = [
-    { value: "Adrar", label: "1-Adrar" },
-    { value: "Chlef", label: "2-Chlef" },
-    { value: "Laghouat", label: "3-Laghouat" },
-    { value: "Oum El Bouaghi", label: "4-Oum El Bouaghi" },
-    { value: "Batna", label: " 5-Batna" },
-    { value: "Bejaïa", label: "6-Bejaïa" },
-    { value: "Biskra", label: " 7-Biskra" },
-    { value: "Bechar", label: "8-Bechar" },
-    { value: "Blida", label: " 9-Blida" },
-    { value: "Bouira", label: "10-Bouira" },
-    { value: "Tamanrasset", label: "11-Tamanrasset " },
-    { value: "Tebessa<", label: "12-Tebessa<" },
-    { value: "Tlemcen", label: " 13-Tlemcen" },
-    { value: "Tiaret", label: "14-Tiaret" },
-    { value: "Tizi Ouzou", label: " 15-Tizi Ouzou" },
-    { value: "Alger", label: "16-Alger" },
-    { value: "Djelfa", label: "17-Djelfa " },
-    { value: "Jijel", label: "18-Jijel" },
-    { value: "Setif", label: "19-Setif " },
-    { value: "Saida", label: "20-Saida" },
-    { value: "Skikda", label: " 21-Skikda" },
-    { value: "Sidi Bel Abbes", label: "22-Sidi Bel Abbes" },
-    { value: "Annaba", label: "23-Annaba " },
-    { value: "Guelma", label: "24-Guelma" },
-    { value: "Constantine", label: " 25-Constantine" },
-    { value: "Medea", label: "26-Medea" },
-    { value: "Mostaganem", label: " 27-Mostaganem" },
-    { value: "M'Sila", label: "28-M'Sila" },
-    { value: "Mascara", label: " 29-Mascara" },
-    { value: "Ouargla", label: "30-Ouargla" },
-    { value: "Oran", label: " 31-Oran" },
-    { value: "El Bayadh", label: "32-El Bayadh" },
-    { value: "Illizi", label: " 33-Illizi" },
-    { value: "Bordj Bou Arreridj", label: "34-Bordj Bou Arreridj" },
-    { value: "Boumerdes", label: "35-Boumerdes " },
-    { value: " El Tarf", label: " 36-El Tarf" },
-    { value: "Tindouf", label: " 37-Tindouf" },
-    { value: "Tissemsilt", label: "38-Tissemsilt" },
-    { value: "El Oued", label: "39-El Oued " },
-    { value: "Khenchela", label: "40-Khenchela" },
-    { value: "Souk Ahras", label: "41-Souk Ahras " },
-    { value: "Tipaza", label: "42-Tipaza" },
-    { value: "Mila", label: " 43-Mila " },
-    { value: "Ain Defla", label: "44-Ain Defla" },
-    { value: "Naama", label: "  45-Naama" },
-    { value: "Ain Temouchent", label: "46-Ain Temouchent" },
-    { value: "Ghardaia", label: " 47-Ghardaia " },
-    { value: "Relizane", label: " 48-Relizane" },
-    { value: "Timimoun", label: "49-Timimoun " },
-    { value: "Bordj Badji Mokhtar", label: " 50-Bordj Badji Mokhtar" },
-    { value: "Ouled Djellal", label: " 51-Ouled Djellal" },
-    { value: "Beni Abbes ", label: "52-Beni Abbes " },
-    { value: "In Salah", label: " 53-In Salah" },
-    { value: "In Guezzam", label: "54-In Guezzam" },
-    { value: "Touggourt ", label: "55-Touggourt  " },
-    { value: "Djanet ", label: "56-Djanet " },
-    { value: "El M'Ghair", label: " 57-El M'Ghair" },
-    { value: "El Meniaa ", label: "58-El Meniaa " },
-  ]
-
-
+  
   const [agenda, setAgenda] = useState({
     Dimanche: { start: '', end: '' },
     Lundi: { start: '', end: '' },
@@ -307,7 +248,7 @@ const FormCreche = (props) => {
                     <div className="ring-2 ring-red-400 rounded-md mt-2">
                       <Select required
                         onChange={(value) => SetWilayacreche(value.value)}
-                        options={WilayaOptions} />
+                        options={wilayaoptions} />
                     </div>
                   </div>
                 </div>
@@ -324,7 +265,7 @@ const FormCreche = (props) => {
                       <Select className="z-[10] "
                         required
                         onChange={(value) => SetCommunecreche(value.value)}
-                        options={WilayaOptions} />
+                        options={((wilayacreche === null) ||(wilayacreche === 'Aucun')) ?[{value:"nothing",label:"Choisissez une Wilaya"}]:Communes[wilayacreche]} />
                     </div>
                   </div>
                 </div>
