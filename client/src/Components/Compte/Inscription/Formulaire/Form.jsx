@@ -10,7 +10,8 @@ import Navbar from "../../../Navigation/Navbar";
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import PasswordInput from "../../../Functions/PasswordInput";
 import SignUpSuccess from "../../../Functions/Success/SignUpSuccess";
-
+import {Communes} from '../../../../data'
+import { wilayaoptions } from "../../../../data";
 const SIGNUP_URL = 'auth/signup'
 const PASSWORDVALID = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 const EMAILVALID = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -34,127 +35,8 @@ function Form() {
   const togglePassword2Visibility = () => setShowPassword2(!showPassword2);
 
   
-  const wilayaoptions = [
-    { value: "Adrar", label: "1-Adrar" },
-    { value: "Chlef", label: "2-Chlef" },
-    { value: "Laghouat", label: "3-Laghouat" },
-    { value: "Oum El Bouaghi", label: "4-Oum El Bouaghi" },
-    { value: "Batna", label: " 5-Batna" },
-    { value: "Béjaïa", label: "6-Béjaïa" },
-    { value: "Biskra", label: " 7-Biskra" },
-    { value: "Béchar", label: "8-Béchar" },
-    { value: "Blida", label: " 9-Blida" },
-    { value: "Bouira", label: "10-Bouira" },
-    { value: "Tamanrasset", label: "11-Tamanrasset " },
-    { value: "Tébessa<", label: "12-Tébessa<" },
-    { value: "Tlemcen", label: " 13-Tlemcen" },
-    { value: "Tiaret", label: "14-Tiaret" },
-    { value: "Tizi Ouzou", label: " 15-Tizi Ouzou" },
-    { value: "Alger", label: "16-Alger" },
-    { value: "Djelfa", label: "17-Djelfa " },
-    { value: "Jijel", label: "18-Jijel" },
-    { value: "Sétif", label: "19-Sétif " },
-    { value: "Saïda", label: "20-Saïda" },
-    { value: "Skikda", label: " 21-Skikda" },
-    { value: "Sidi Bel Abbès", label: "22-Sidi Bel Abbès" },
-    { value: "Annaba", label: "23-Annaba " },
-    { value: "Guelma", label: "24-Guelma" },
-    { value: "Constantine", label: " 25-Constantine" },
-    { value: "Médéa", label: "26-Médéa" },
-    { value: "Mostaganem", label: " 27-Mostaganem" },
-    { value: "M'Sila", label: "28-M'Sila" },
-    { value: "Mascara", label: " 29-Mascara" },
-    { value: "Ouargla", label: "30-Ouargla" },
-    { value: "Oran", label: " 31-Oran" },
-    { value: "El Bayadh", label: "32-El Bayadh" },
-    { value: "Illizi", label: " 33-Illizi" },
-    { value: "Bordj Bou Arreridj", label: "34-Bordj Bou Arreridj" },
-    { value: "Boumerdès", label: "35-Boumerdès " },
-    { value: " El Tarf", label: " 36-El Tarf" },
-    { value: "Tindouf", label: " 37-Tindouf" },
-    { value: "Tissemsilt", label: "38-Tissemsilt" },
-    { value: "El Oued", label: "39-El Oued " },
-    { value: "Khenchela", label: "40-Khenchela" },
-    { value: "Souk Ahras", label: "41-Souk Ahras " },
-    { value: "Tipaza", label: "42-Tipaza" },
-    { value: "Mila", label: " 43-Mila " },
-    { value: "Aïn Defla", label: "44-Aïn Defla" },
-    { value: "Naâma", label: "  45-Naâma" },
-    { value: "Aïn Témouchent", label: "46-Aïn Témouchent" },
-    { value: "Ghardaïa", label: " 47-Ghardaïa " },
-    { value: "Relizane", label: " 48-Relizane" },
-    { value: "Timimoun", label: "49-Timimoun " },
-    { value: "Bordj Badji Mokhtar", label: " 50-Bordj Badji Mokhtar" },
-    { value: "Ouled Djellal", label: " 51-Ouled Djellal" },
-    { value: "Béni Abbès ", label: "52-Béni Abbès " },
-    { value: "In Salah", label: " 53-In Salah" },
-    { value: "In Guezzam", label: "54-In Guezzam" },
-    { value: "Touggourt ", label: "55-Touggourt  " },
-    { value: "Djanet ", label: "56-Djanet " },
-    { value: "El M'Ghair", label: " 57-El M'Ghair" },
-    { value: "El Meniaa ", label: "58-El Meniaa " },
-  ]
-  const communeoptions = [
-    { value: "Adrar", label: "1-Adrar" },
-    { value: "Chlef", label: "2-Chlef" },
-    { value: "Laghouat", label: "3-Laghouat" },
-    { value: "Oum El Bouaghi", label: "4-Oum El Bouaghi" },
-    { value: "Batna", label: " 5-Batna" },
-    { value: "Béjaïa", label: "6-Béjaïa" },
-    { value: "Biskra", label: " 7-Biskra" },
-    { value: "Béchar", label: "8-Béchar" },
-    { value: "Blida", label: " 9-Blida" },
-    { value: "Bouira", label: "10-Bouira" },
-    { value: "Tamanrasset", label: "11-Tamanrasset " },
-    { value: "Tébessa", label: "12-Tébessa<" },
-    { value: "Tlemcen", label: " 13-Tlemcen" },
-    { value: "Tiaret", label: "14-Tiaret" },
-    { value: "Tizi Ouzou", label: " 15-Tizi Ouzou" },
-    { value: "Alger", label: "16-Alger" },
-    { value: "Djelfa", label: "17-Djelfa " },
-    { value: "Jijel", label: "18-Jijel" },
-    { value: "Sétif", label: "19-Sétif " },
-    { value: "Saïda", label: "20-Saïda" },
-    { value: "Skikda", label: " 21-Skikda" },
-    { value: "Sidi Bel Abbès", label: "22-Sidi Bel Abbès" },
-    { value: "Annaba", label: "23-Annaba " },
-    { value: "Guelma", label: "24-Guelma" },
-    { value: "Constantine", label: " 25-Constantine" },
-    { value: "Médéa", label: "26-Médéa" },
-    { value: "Mostaganem", label: " 27-Mostaganem" },
-    { value: "M'Sila", label: "28-M'Sila" },
-    { value: "Mascara", label: " 29-Mascara" },
-    { value: "Ouargla", label: "30-Ouargla" },
-    { value: "Oran", label: " 31-Oran" },
-    { value: "El Bayadh", label: "32-El Bayadh" },
-    { value: "Illizi", label: " 33-Illizi" },
-    { value: "Bordj Bou Arreridj", label: "34-Bordj Bou Arreridj" },
-    { value: "Boumerdès", label: "35-Boumerdès " },
-    { value: " El Tarf", label: " 36-El Tarf" },
-    { value: "Tindouf", label: " 37-Tindouf" },
-    { value: "Tissemsilt", label: "38-Tissemsilt" },
-    { value: "El Oued", label: "39-El Oued " },
-    { value: "Khenchela", label: "40-Khenchela" },
-    { value: "Souk Ahras", label: "41-Souk Ahras " },
-    { value: "Tipaza", label: "42-Tipaza" },
-    { value: "Mila", label: " 43-Mila " },
-    { value: "Aïn Defla", label: "44-Aïn Defla" },
-    { value: "Naâma", label: "  45-Naâma" },
-    { value: "Aïn Témouchent", label: "46-Aïn Témouchent" },
-    { value: "Ghardaïa", label: " 47-Ghardaïa " },
-    { value: "Relizane", label: " 48-Relizane" },
-    { value: "Timimoun", label: "49-Timimoun " },
-    { value: "Bordj Badji Mokhtar", label: " 50-Bordj Badji Mokhtar" },
-    { value: "Ouled Djellal", label: " 51-Ouled Djellal" },
-    { value: "Béni Abbès ", label: "52-Béni Abbès " },
-    { value: "In Salah", label: " 53-In Salah" },
-    { value: "In Guezzam", label: "54-In Guezzam" },
-    { value: "Touggourt ", label: "55-Touggourt  " },
-    { value: "Djanet ", label: "56-Djanet " },
-    { value: "El M'Ghair", label: " 57-El M'Ghair" },
-    { value: "El Meniaa ", label: "58-El Meniaa " },
-  ]
-
+  
+  
   const emailRef = useRef();
   const errRef = useRef();
 
@@ -502,7 +384,7 @@ const handleSubmit = async (e) => {
                 <div className="ring-2 ring-red-400 rounded-md ">
                   <Select  required
                    onChange={(value) => setCommune(value.value)}
-                    options={communeoptions} />
+                   options={((wilaya === null) ||(wilaya === 'Aucun')) ?[{value:"nothing",label:"Choisissez une Wilaya"}]:Communes[wilaya]} />
                 </div>
               </div>
             </div>
