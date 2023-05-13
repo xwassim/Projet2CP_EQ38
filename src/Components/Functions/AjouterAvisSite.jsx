@@ -12,7 +12,7 @@ const AjouterAvisSite = () => {
                 class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-nonen  placeholder-gray-400 "
                 placeholder="Ecrire un commentaire..." required></textarea>
         </div>
-        <a href='/AddCommentSuccess'><button type="submit"
+        <a href='/AddCommentSuccess'><button type="button"
             class="inline-flex items-center py-2.5 px-4 text-sm hover:scale-105 duration-300 font-medium text-center text-blue-950 hover:text-[#b32f2f] bg-primary-700 rounded-lg  hover:bg-primary-800">
            Poster 
         </button> </a>
