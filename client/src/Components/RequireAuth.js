@@ -12,10 +12,10 @@ let allowed=0;
  
  let [storeUser, setStoreUser] = useState(JSON.parse(localStorage.getItem("user")));
  
-if (storeUser!=null) {  login=1   }
+if (storeUser!=null) {  login=1   
 if( allowedRoles.includes(storeUser.user.roles) ) { allowed=1 }
 
-     
+}
    
 
     const location = useLocation();
