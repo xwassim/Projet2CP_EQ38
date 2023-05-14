@@ -346,20 +346,20 @@ const upldateUser = asyncHandler(async (req, res) =>{
     }
     try {
         await user.updateOne({username, email, nom, prenom, sexe, adresse, telephone, wilaya, commune, codePostal});
-        
+        const user2 = await User.findById(id);
         const userImportansData = {
-            username: user.username,
-            email: user.email,
-            roles: user.role,
-            nom : user.nom,
-            prenom : user.prenom,
-            sexe : user.sexe,
-            adresse : user.adresse,
-            telephone : user.telephone,
-            wilaya : user.wilaya,
-            commune : user.commune,
-            codePostal : user.codePostal,
-            confirmationToken : user.confirmationToken,
+            username: user2.username,
+            email: user2.email,
+            roles: user2.role,
+            nom : user2.nom,
+            prenom : user2.prenom,
+            sexe : user2.sexe,
+            adresse : user2.adresse,
+            telephone : user2.telephone,
+            wilaya : user2.wilaya,
+            commune : user2.commune,
+            codePostal : user2.codePostal,
+            confirmationToken : user2.confirmationToken,
 
         }
        
