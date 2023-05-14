@@ -8,7 +8,7 @@ import useRefreshToken from "../../../../hooks/useRefreshToken";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import AjoutCrecheSuccess from "../../../Functions/Success/AjoutCrecheSuccess";
-import {Communes} from '../../../../data'
+import { Communes } from '../../../../data'
 import { wilayaoptions } from "../../../../data";
 
 const FormCreche = (props) => {
@@ -89,7 +89,7 @@ const FormCreche = (props) => {
   ];
 
 
-  
+
   const [agenda, setAgenda] = useState({
     Dimanche: { start: '', end: '' },
     Lundi: { start: '', end: '' },
@@ -100,22 +100,22 @@ const FormCreche = (props) => {
     Samedi: { start: '', end: '' },
   });
 
-
-
-
   const handleImageChange = (event) => {
     const files = event.target.files;
-    const imagesArray = [];
+    const imagesArray = [...images]; // Copy the existing images array
 
     for (let i = 0; i < files.length; i++) {
       const reader = new FileReader();
       reader.readAsDataURL(files[i]);
       reader.onload = (event) => {
-        imagesArray.push(event.target.result);
+        imagesArray.push({ url: event.target.result, caption: '' });
         SetImages(imagesArray);
       };
     }
   };
+
+
+
 
   const errRef = useRef();
   const [errMsg, setErrMsg] = useState('');
@@ -132,9 +132,10 @@ const FormCreche = (props) => {
   };
 
 
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(images)
     try {
       const newAccessToken = await refresh();
       const response = await axios.post(
@@ -180,7 +181,7 @@ const FormCreche = (props) => {
     <>
       {success ? (
         <section>
-          <AjoutCrecheSuccess/>
+          <AjoutCrecheSuccess />
         </section>
       ) : (<section>
         <form className="FormInscription" onSubmit={handleSubmit} >
@@ -265,7 +266,7 @@ const FormCreche = (props) => {
                       <Select className="z-[10] "
                         required
                         onChange={(value) => SetCommunecreche(value.value)}
-                        options={((wilayacreche === null) ||(wilayacreche === 'Aucun')) ?[{value:"nothing",label:"Choisissez une Wilaya"}]:Communes[wilayacreche]} />
+                        options={((wilayacreche === null) || (wilayacreche === 'Aucun')) ? [{ value: "nothing", label: "Choisissez une Wilaya" }] : Communes[wilayacreche]} />
                     </div>
                   </div>
                 </div>
@@ -370,8 +371,8 @@ const FormCreche = (props) => {
                   </label>
                   <div className="ring-2 ring-red-400 rounded-md mt-2">
                     <Select className="z-[65] "
-                     required
-    
+                      required
+
                       onChange={(value) => SetTypeacc(value.value)}
                       options={Typeaccueil} />
                   </div>
@@ -387,7 +388,7 @@ const FormCreche = (props) => {
                   </label>
                   <div className="ring-2 ring-red-400 rounded-md mt-2">
                     <Select className="z-[65] "
-                    required
+                      required
 
                       onChange={(value) => SetPedagogie(value.value)}
                       options={Pedagogie} />
@@ -404,7 +405,7 @@ const FormCreche = (props) => {
                   </label>
                   <div className="ring-2 ring-red-400 rounded-md mt-2">
                     <Select className="z-[55] "
-                    required
+                      required
 
                       onChange={(value) => SetLangesupp(value.value)}
                       options={Langues} />
@@ -421,7 +422,7 @@ const FormCreche = (props) => {
                   </label>
                   <div className="ring-2 ring-red-400 rounded-md mt-2">
                     <Select
-                       
+
                       isMulti={true}
                       className="z-[55]"
                       onChange={(selectedOptions) =>
@@ -442,7 +443,7 @@ const FormCreche = (props) => {
                   </label>
                   <div className="ring-2 ring-red-400 rounded-md mt-2">
                     <Select className="z-[45] "
-      required
+                      required
                       onChange={(value) => SetMixite(value.value)}
                       options={Mixité} />
                   </div>
@@ -458,7 +459,7 @@ const FormCreche = (props) => {
                   </label>
                   <div className="mt-2">
                     <input
-   required
+                      required
                       value={placesdispo}
                       onChange={(e) => SetPlacesdispo(e.target.value)}
                       type="text"
@@ -656,6 +657,7 @@ const FormCreche = (props) => {
                 >
                   Inserer des photos de cette creche
                 </label>
+                <span className="text-rose-800 mx-5 text-xs text-end ">Photos inséres : {images.length} </span>
                 <div className="mt-2 flex justify-center rounded-lg border border-dashed border-red-400 px-6 py-10 bg-white">
                   <div className="text-center">
                     <PhotoIcon
@@ -664,7 +666,7 @@ const FormCreche = (props) => {
                     />
                     <div className="mt-4 flex text-sm leading-6 text-gray-600">
                       <label
-                        htmlFor="file-upload"
+                        htmlFor="image"
                         className="relative cursor-pointer rounded-md bg-white font-semibold text-red-500 focus-within:outline-none focus-within:ring-2  focus-within:ring-indigo-100 focus-within:ring-offset-2  hover:text-indigo-900"
                       >
                         <span>Inserer une image</span>
@@ -679,10 +681,8 @@ const FormCreche = (props) => {
                       </label>
                       <p className="pl-1">or drag and drop</p>
                     </div>
-                  
                   </div>
                 </div>
-                {/* <AccordionPlusImage /> */}
               </div>
             </div>
           </div>
@@ -704,6 +704,9 @@ const FormCreche = (props) => {
 
 
         </form>
+
+
+
       </section>)
       }
 
