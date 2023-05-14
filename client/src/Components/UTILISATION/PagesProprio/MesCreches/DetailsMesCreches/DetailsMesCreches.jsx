@@ -269,7 +269,7 @@ function DetailsMesCreches(props) {
 
                   <SwiperSlide key={index} className="   mx-auto   flex   my-4 bg-whtie     " >
 
-                    <img className=" mx-auto mt-2  w-[95%] " src={Images[index]} alt="" />
+                    <img className=" mx-auto mt-2  w-[95%] " src={Images[index].url} alt="" />
 
 
 
