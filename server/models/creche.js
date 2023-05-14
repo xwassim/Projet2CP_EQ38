@@ -163,8 +163,7 @@ const CrecheSchema = new mongoose.Schema({
     },
     Images: [
         {
-            "data": Buffer,
-            "contentType": String
+            url: String, // The URL or path of the image
         }
     ],
     Proprietaire: {
