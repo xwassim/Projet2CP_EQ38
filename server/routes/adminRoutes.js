@@ -11,6 +11,9 @@ router.get('/users', adminController.getUsers);
 router.get('/avis', adminController.getAvis);
 router.delete('/users/:id', adminController.deleteUser);
 router.delete('/avis/:id', adminController.deleteAvis);
+router.get('/creches', adminController.getCreches);
+router.delete('/creches/:id', adminController.deleteCreche);
+router.get('/', adminController.stats);
 
 
 

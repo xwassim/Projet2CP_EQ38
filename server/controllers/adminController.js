@@ -6,7 +6,6 @@ const Enfant = require('../models/enfant')
 const Creche = require('../models/creche')
 
 const asyncHandler = require('express-async-handler')
-const mongoose = require("mongoose");
 
 // @desc    Get all users
 // @route   GET /api/admin/users
@@ -80,6 +79,18 @@ const deleteCreche = asyncHandler(async (req, res) => {
     }
 }
 )
+const stats = asyncHandler(async (req, res) => {
+    const nbUsers = await User.countDocuments({})
+    const nbCreches = await Creche.countDocuments({})
+    const nbAvis = await Avis.countDocuments({})
+    const nbEnfants = await Enfant.countDocuments({})
+    const nbParents = await User.countDocuments({ role: 'parent' })
+    const nbProprietaires = await User.countDocuments({ role: 'proprietaire' })
+    const TopCreches = await Creche.find({}).sort({ note: -1 }).limit(7)
+    return res.json({ nbUsers, nbCreches, nbAvis, nbEnfants, nbParents, nbProprietaires, TopCreches })
+
+}
+)
 
 
-module.exports = { getUsers, getAvis, deleteUser, deleteAvis }
+module.exports = { getUsers, getAvis, deleteUser, deleteAvis, getCreches, deleteCreche, stats }
