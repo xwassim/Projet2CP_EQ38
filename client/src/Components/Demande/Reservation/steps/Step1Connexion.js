@@ -5,7 +5,7 @@ import Select from "react-select";
 
 import React from "react";
 import Logo from "../../../Assets/Logo1.svg";
-
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 import FloatingImage from "../../../Functions/LogoFloatingImage";
 
@@ -16,6 +16,9 @@ export default function Step1Connexion() {
   const handleChange = (event) => {
     setValeur(event.target.value);
   };
+
+  const [showPassword1, setShowPassword1] = useState(false);
+  const togglePassword1Visibility = () => setShowPassword1(!showPassword1);
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("La valeur est : ", valeur);
@@ -59,13 +62,25 @@ export default function Step1Connexion() {
                       Mot de passe
                     </label>
                     <input
-                      type="password"
+                      type={showPassword1 ? 'text' : 'password'}
                       name="password"
                       id="password"
                       placeholder="••••••••"
-                      class="bg-gray-50 ring ring-[#f67261] shadow-[-4.09869px_3.27895px_3px_rgba(0,0,0,0.25)]  sm:text-sm  rounded-2xl block w-full p-2.5 "
-                      required=""
+                      className="bg-gray-50 ring ring-[#f67261] shadow-[-4.09869px_3.27895px_3px_rgba(0,0,0,0.25)]  sm:text-sm  rounded-xl block w-full p-2.5 "
+                      required
+
+
                     />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                      <button
+                        type="button"
+                        className="text-gray-500 focus:outline-none focus:text-gray-700"
+                        onClick={togglePassword1Visibility}
+                      >
+                        {showPassword1 ? <FiEyeOff /> : <FiEye />}
+                      </button>
+
+                    </div>
                   </div>
                   <div class="flex items-center justify-between">
                     <div class="flex items-start">

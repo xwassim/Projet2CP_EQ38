@@ -189,12 +189,12 @@ autoComplete="email"
             </div>
             <div className="rounded-md bg-[white] p-2 sm:p-3 ld:p-5 ring ring-[#f15968]">
               <h4>
-                Un compte propriétaire vous permet de bénéficier des
-                fonctionnalités du mode parent, mais également ajouter les
-                crèches que vous possédez sur notre site afin d'attirer de
-                nouveaux clients. En plus de pouvoir gérer les inscriptions et
-                les réservations, ainsi que communiquer par e-mail avec les
-                parents intéressés par vos services.{" "}
+              Un compte propriétaire vous permet de bénéficier des
+                        fonctionnalités du mode parent, mais également ajouter
+                        les crèches que vous possédez sur notre site en plus de
+                        pouvoir gérer les inscriptions et les réservations,
+                        ainsi que de communiquer par e-mail avec les parents
+                        intéressés par vos services.
               </h4>
             </div>
           </div>
@@ -217,12 +217,11 @@ autoComplete="email"
             </div>
             <div className="ring ring-[#f15968] rounded-md bg-[white] p-2 sm:p-3 ld:p-5">
               <h4>
-                Un compte parent vous permet d'ajouter à vos favoris les
-                différentes crèches disponibles et d'inscrire vos enfants. Vous
-                pourrez alors réserver directement une place pour eux dans une
-                crèche choisie ou prendre rendez-vous avec une crèche pour en
-                savoir plus sur les disponibilités et les modalités
-                d'inscription.
+              Un compte parent vous permet apres une recherche
+                        d'inscrire vos enfants a des creches en réservant
+                        directement une place pour eux dans une crèche choisie
+                        ou en prenant un rendez-vous pour mieux vous informer
+                        sur les services et les modalités d'inscription.
               </h4>
             </div>
           </div>
