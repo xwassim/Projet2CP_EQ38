@@ -8,7 +8,7 @@ const AjoutCreche = () => {
       <nav>
         <Navbar />
       </nav>
-      <div className="mx-[10%]">
+      <div className="mx-[3%] ld:mx-[10%]">
         <h2 className="text-3xl font-semibold text-blue-950 text-center mx-10">Formulaire d'ajout d'une creche</h2>
         <FormCreche />
       </div>
