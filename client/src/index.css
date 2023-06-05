@@ -39,9 +39,9 @@ h1{
 }
 
 /* style du component form dans la page SignUp*/
+
 .FormInscription{
     margin-top: 30px;
-    padding: 40px 40px;
     font-family: 'Inter';
     background-color: #F5D5D5;
     border-radius: 50px;
