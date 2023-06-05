@@ -70,7 +70,6 @@ import 'swiper/css/scrollbar';
 
 const PROP = 'proprietaire'
 const PARENT = 'parent'
-const ADMIN = 'admin'
 
 function App() {
   return (
@@ -85,20 +84,24 @@ function App() {
     <Route path="/SignUp" element={<SignUp />} />
       </Route>
 
-      <Route element={<RequireAuth allowedRoles={[PROP, PARENT, ADMIN]} />} >
+      <Route element={<RequireAuth allowedRoles={[PROP, PARENT]} />} >
       <Route path="/MenuParent" element={<Menu2 />} />
       <Route path='/MesEnfants' element={<MesEnfants/>}></Route>
       <Route path='/MonProfil'  element={<MonProfil/>}/>
       <Route path='/AjoutEnfant' element={<AjoutEnfant/>}/>
       <Route path='/AddEnfantSuccess' element={<AjoutEnfantSuccess/>}/>
+      <Route path='/ReservationParent' element={<ReservationParent/>} />
+      <Route path='/RdvParent' element={<RdvParent/>} />
       <Route path='/LogOut' element={<LogOut/>}/>
       </Route>
 
-      <Route element={<RequireAuth allowedRoles={[PROP,ADMIN]} />} >
+      <Route element={<RequireAuth allowedRoles={[PROP]} />} >
       <Route path="/MenuProprio" element={<Menu />} />
       <Route path='/MesCreches' element={<MesCreches/>}></Route>
       <Route path='/AjoutCreche' element={<AjoutCreche/>}></Route>
       <Route path='/AddCrecheSuccess' element={<AjoutCrecheSuccess/>}/>
+      <Route path='/RdvProprio' element={<RdvProprio/>} />
+      <Route path='/ReservationProprio' element={<ReservationProprio/>} />
       <Route path="/DescriptionMesCreches" element={<DynamicDescriptionMesCreches/>}></Route>
       </Route>
          
@@ -107,7 +110,9 @@ function App() {
       <Route path='/' element={<Home />} />
       <Route path='/AboutUs' element={<AboutUs/>}/>
       <Route path='/Nous' element={<AboutUsPrime/>}/>
-
+      <Route path='/ForgotPassword' element={<ForgotPassword/>}/>
+      <Route path='/MailSent' element={<MailSent/>}/>
+      
 
       <Route path="/Search" element={< Search />} />
       <Route path="/DescriptionCreche" element={<DynamicDescriptionCreche/>}></Route>
@@ -116,10 +121,8 @@ function App() {
       <Route path='/DescriptionCrecheReservation' element={<DynamicDescriptionCrecheReservation/>}/>
       <Route path="/SearchResults" element={<SearchResults/>}/>
       <Route path='/MesNotifs' element={<MesNotifs/>} />
-      <Route path='/RdvProprio' element={<RdvProprio/>} />
-      <Route path='/RdvParent' element={<RdvParent/>} />
-      <Route path='/ReservationProprio' element={<ReservationProprio/>} />
-      <Route path='/ReservationParent' element={<ReservationParent/>} />
+ 
+      
       <Route path='/sup' element={<DeleteConfirmation/>} />
       <Route path='/AddCommentSuccess' element={<AjoutCommentaireSuccess/>}/>
       <Route path='/AddCommentCrecheSuccess' element={<AjoutCommentaireCrecheSuccess/>}/>
