@@ -84,7 +84,9 @@ const MonCompteModif = () => {
       await logout();
       localStorage.removeItem('user');
       window.location.reload();
-      window.location.href = '/'
+      window.location.href = '/';
+ 
+      
 
 
 
@@ -232,7 +234,7 @@ const MonCompteModif = () => {
               type="submit"
               className="rounded-md bg-red-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-900 hover:scale-105 duration-100 ring-2 ring-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              <a href="/MonProfil">Sauvgarder</a>
+              Sauvgarder
             </button>
           </div>
         </form>
