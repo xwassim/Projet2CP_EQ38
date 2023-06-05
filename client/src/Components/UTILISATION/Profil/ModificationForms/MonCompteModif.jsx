@@ -21,12 +21,12 @@ const MonCompteModif = () => {
 
   const errRef = useRef();
 
-  const [oldpassword, setOldPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState('');
 
 
-  const [newpassword, setNewPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [validNewPassword, setValidNewPassword] = useState(false);
-  const [newpasswordFocus, setNewPasswordFocus] = useState(false);
+  const [newPasswordFocus, setNewPasswordFocus] = useState(false);
 
   const [matchPwd, setMatchPwd] = useState('');
   const [validMatch, setValidMatch] = useState(false);
@@ -43,13 +43,13 @@ const MonCompteModif = () => {
 
   useEffect(() => {
 
-    setValidNewPassword(PASSWORDVALID.test(newpassword));
-    setValidMatch(newpassword === matchPwd);
-  }, [newpassword, matchPwd])
+    setValidNewPassword(PASSWORDVALID.test(newPassword));
+    setValidMatch(newPassword === matchPwd);
+  }, [newPassword, matchPwd])
 
   useEffect(() => {
     setErrMsg('');
-  }, [newpassword, matchPwd])
+  }, [newPassword, matchPwd])
 
   const refresh = useRefreshToken();
 
@@ -57,8 +57,8 @@ const MonCompteModif = () => {
     e.preventDefault();
 
 
-    const v1 = PASSWORDVALID.test(newpassword);
-    const v2 = newpassword === matchPwd;
+    const v1 = PASSWORDVALID.test(newPassword);
+    const v2 = newPassword === matchPwd;
 
     if (!v1 || !v2) {
       setErrMsg("Entrée invalide");
@@ -70,7 +70,7 @@ const MonCompteModif = () => {
       const newAccessToken = await refresh();
       const response = await axios.put(
         'auth/changePassword',
-        JSON.stringify({ oldpassword, newpassword }),
+        JSON.stringify({ oldPassword, newPassword }),
         {
           headers: {
             'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ const MonCompteModif = () => {
                     type={showPassword1 ? 'text' : 'password'}
                     className="block w-full rounded-md border-0 py-2 px-2 text-gray-900 shadow-sm ring-2 ring-inset ring-red-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     required
-                    value={oldpassword}
+                    value={oldPassword}
                     onChange={(e) => setOldPassword(e.target.value)}
                     name="old-pswd"
                     id="old-pswd"
@@ -148,7 +148,7 @@ const MonCompteModif = () => {
                 <div className="relative">
                   <input
                     onChange={(e) => setNewPassword(e.target.value)}
-                    value={newpassword}
+                    value={newPassword}
                     required
                     aria-invalid={validNewPassword ? "false" : "true"}
                     aria-describedby="new-pswd"
@@ -174,7 +174,7 @@ const MonCompteModif = () => {
 
                 </div>
               </div>
-              <p id="new-pswd" className={newpasswordFocus && newpassword && !validNewPassword ? "instructions max-w-xs justify-self-center" : "offscreen"}>
+              <p id="new-pswd" className={newPasswordFocus && newPassword && !validNewPassword ? "instructions max-w-xs justify-self-center" : "offscreen"}>
                 Le mot de passe doit etre compose de 8 caracteres, une lettre majuscule,
                 une lettre miniscule et un chiffre.
               </p>
