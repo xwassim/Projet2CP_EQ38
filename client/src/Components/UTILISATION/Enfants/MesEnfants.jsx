@@ -12,9 +12,7 @@ const MesEnfants = () => {
       <div>
         <GstEnfants />
       </div>
-      <footer className="mt-10">
-        <Footer />
-      </footer>
+    
     </>
   );
 };
