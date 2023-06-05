@@ -106,7 +106,7 @@ const MonCompteModif = () => {
   return (
     <>
       <div className=" mx-[1%] ld:mx-[5%]">
-        <form className="FormInscription" onSubmit={handleSubmit}>
+        <form className="FormInscription px-[10px] ld:p-[40px]" onSubmit={handleSubmit}>
           <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 
             <div className="sm:col-span-5">
@@ -223,10 +223,10 @@ const MonCompteModif = () => {
           </div>
 
         
-          <div className="mt-6 flex items-center justify-end gap-x-6">
+          <div className="mt-6 flex items-center justify-end  pb-5 flex-col ld:flex-row  gap-x-6">
             <button
               type="button"
-              className="text-sm font-semibold leading-6 text-blue-950 hover:text-red-500"
+              className="text-sm font-semibold pb-5 ld:pb-0 leading-6 text-blue-950 hover:text-red-500"
             >
               Annuler
             </button>
