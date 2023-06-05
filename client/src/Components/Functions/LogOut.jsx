@@ -2,6 +2,7 @@ import React from 'react'
 import {RiErrorWarningFill} from 'react-icons/ri'
 import { useNavigate } from "react-router-dom";
 import useLogout from '../../hooks/useLogout';
+import Cookies from 'js-cookie';
 
 
 
@@ -13,6 +14,7 @@ const LogOut = () => {
   const signOut = async () => {
     await logout();
     localStorage.removeItem('user');
+    Cookies.remove('refreshToken');
     window.location.reload();
     window.location.href='/'
   }

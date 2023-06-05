@@ -6,7 +6,8 @@ const authRoutes = require('./routes/authRoutes');
 const crecheRoutes = require('./routes/crecheRoutes');
 const avisRoutes = require('./routes/avisRoutes');
 const enfantRoutes = require('./routes/enfantRoutes');
-const SearchRoute = require('./routes/SearchRoute')
+const SearchRoute = require('./routes/SearchRoute');
+const adminRoutes = require('./routes/adminRoutes')
 const cookieParser = require('cookie-parser');
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use('/api/auth', authRoutes);
 app.use('/creche', crecheRoutes);
 app.use('/avis', avisRoutes);
 app.use('/enfant', enfantRoutes);
+app.use('/api/admin', adminRoutes)
 app.use('/',SearchRoute)
 
 

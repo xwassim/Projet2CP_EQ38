@@ -70,6 +70,7 @@ import 'swiper/css/scrollbar';
 
 const PROP = 'proprietaire'
 const PARENT = 'parent'
+const ADMIN = 'admin'
 
 function App() {
   return (
@@ -84,7 +85,7 @@ function App() {
     <Route path="/SignUp" element={<SignUp />} />
       </Route>
 
-      <Route element={<RequireAuth allowedRoles={[PROP, PARENT]} />} >
+      <Route element={<RequireAuth allowedRoles={[PROP, PARENT, ADMIN]} />} >
       <Route path="/MenuParent" element={<Menu2 />} />
       <Route path='/MesEnfants' element={<MesEnfants/>}></Route>
       <Route path='/MonProfil'  element={<MonProfil/>}/>
@@ -93,7 +94,7 @@ function App() {
       <Route path='/LogOut' element={<LogOut/>}/>
       </Route>
 
-      <Route element={<RequireAuth allowedRoles={[PROP]} />} >
+      <Route element={<RequireAuth allowedRoles={[PROP,ADMIN]} />} >
       <Route path="/MenuProprio" element={<Menu />} />
       <Route path='/MesCreches' element={<MesCreches/>}></Route>
       <Route path='/AjoutCreche' element={<AjoutCreche/>}></Route>
