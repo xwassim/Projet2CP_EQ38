@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import Logo from "../../Assets/Logo1.svg";
 import Navbar from "../../Navigation/Navbar";
 import { Link, useNavigate } from "react-router-dom";
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 import LogoFloatingImage from "../../Functions/LogoFloatingImage";
 import useAuth from '../../../hooks/useAuth';
 import axios from '../../../api/axios';
@@ -17,6 +18,9 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+
+  const [showPassword1, setShowPassword1] = useState(false);
+  const togglePassword1Visibility = () => setShowPassword1(!showPassword1);
 
   const emailRef = useRef();
   const errRef = useRef();
@@ -123,8 +127,9 @@ const handleSubmit = async (e) => {
                     >
                       Mot de passe
                     </label>
+                    <div className="mt-2 relative">
                     <input
-                      type="password"
+                       type={showPassword1 ? 'text' : 'password'}
                       name="password"
                       id="password"
                       placeholder="••••••••"
@@ -134,6 +139,16 @@ const handleSubmit = async (e) => {
                       value={password}
                       
                     />
+                     <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                    <button
+                      type="button"
+                      className="text-gray-500 focus:outline-none focus:text-gray-700"
+                      onClick={togglePassword1Visibility}
+                    >
+                      {showPassword1 ? <FiEyeOff /> : <FiEye />}
+                    </button>
+                  </div>
+                    </div>
                   </div>
                   <div className="flex items-center justify-center">
                    
