@@ -2,16 +2,18 @@ import { useStepperContext } from "../GestionDesSteps/StepperContext";
 import { useState } from "react";
 import Accordion3 from "../../../PagesAccordions/AccordionAjouterAutreEnfant";
 import Select from "react-select";
-
 import React from "react";
 import Logo from "../../../Assets/Logo1.svg";
-
-
 import FloatingImage from "../../../Functions/LogoFloatingImage";
 
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 export default function Step1Connexion() {
   const { userData, setUserData } = useStepperContext();
   const [valeur, setValeur] = useState("");
+
+
+  const [showPassword1, setShowPassword1] = useState(false);
+  const togglePassword1Visibility = () => setShowPassword1(!showPassword1);
 
   const handleChange = (event) => {
     setValeur(event.target.value);
@@ -28,13 +30,13 @@ export default function Step1Connexion() {
 
   return (
     <><>
-     
-     <div className="  max-w-[1240px] mt-5  ">
+
+      <div className="  max-w-[1240px] mt-5  ">
         <div className="flex items-center justify-center">
           <div class="flex flex-col items-center justify-center px-3 py-8 mx-auto w-[80%]  md:w-full lg:py-0">
             <div class="w-full bg-[#F5D5D5] rounded-xl ring ring-[#ff5b5b] shadow  md:mt-0 sm:max-w-md xl:p-0">
               <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                
+
                 <form class="space-y-4 md:space-y-6" action="#">
                   <div>
                     <label
@@ -59,6 +61,26 @@ export default function Step1Connexion() {
                     >
                       Mot de passe
                     </label>
+                    <input
+                      type={showPassword1 ? 'text' : 'password'}
+                      name="password"
+                      id="password"
+                      placeholder="••••••••"
+                      className="bg-gray-50 ring ring-[#f67261] shadow-[-4.09869px_3.27895px_3px_rgba(0,0,0,0.25)]  sm:text-sm  rounded-xl block w-full p-2.5 "
+                      required
+
+
+                    />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                      <button
+                        type="button"
+                        className="text-gray-500 focus:outline-none focus:text-gray-700"
+                        onClick={togglePassword1Visibility}
+                      >
+                        {showPassword1 ? <FiEyeOff /> : <FiEye />}
+                      </button>
+
+                    </div>
                     <input
                       type="password"
                       name="password"
@@ -107,7 +129,7 @@ export default function Step1Connexion() {
                       href="#"
                       class="font-medium text-[#F16951] hover:underline "
                     >
-                        Inscrivez-vous
+                      Inscrivez-vous
                     </a>
                   </p>
                 </form>
@@ -118,7 +140,7 @@ export default function Step1Connexion() {
 
       </div>
     </>
-   
+
       {/* <>
         <>
           <div className="grid md:grid-cols-2 md:gap-6 my-2">
