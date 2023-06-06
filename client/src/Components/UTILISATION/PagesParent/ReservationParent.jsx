@@ -11,8 +11,6 @@ const ReservationParent = () => {
     name: "Leslie Alexander",
     email: "leslie.alexander@example.com",
     Tel: "0563748202",
-   
-  
   };
 
   const Creche = [
@@ -230,81 +228,88 @@ const ReservationParent = () => {
                   </p>
                 </div>
               </div>
-            
               ,
               <div className="hidden sm:flex sm:flex-col sm:items-end">
-              <p className="text-lg mt-5 leading-6 font-bold text-[#ff4242]">
+                <p className="text-lg mt-5 leading-6 font-bold text-[#ff4242]">
                   <span className="text-blue-950 font-semibold">
-                  Date d'ajout :  </span>{Creche.DateCreche}
+                    Date d'ajout :{" "}
+                  </span>
+                  {Creche.DateCreche}
                 </p>
 
-               
                 <p className="text-lg mt-5 leading-6 font-bold text-[#ff4242]">
                   <span className="text-blue-950 font-semibold">Creche : </span>
                   {Creche.nameCreche}
                 </p>
-
               </div>
             </div>
-            <div className="mt-6 flex items-center justify-end gap-x-6">
-              <button
-                type="submit"
-                className="text-sm rounded-md ring-2 ring-[#091098] px-4 py-1.5 bg-[#d81b1b] font-semibold leading-6 text-white hover:bg-[red] hover:scale-105 duration-100 "
-              >
-                <a href="/">Annuler</a>
-              </button>
-           
-            </div>
-            <Accordion flush={true}  >
-  <Accordion.Panel>
-    <Accordion.Title>
-      <h2 className="text-lg font-semibold text-[#e83775] "> Vos enfants</h2>
-    </Accordion.Title>
-    <Accordion.Content>
-    {Creche.Enfant.map((Enfants) => (<>
-    <div className="mt-5 pb-5 -mx-5">
-    <div className="flex gap-x-4">
 
-{/* <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={User.imageUrl} alt="" /> */}
-{/* <UserCircleIcon
+            <Accordion flush={true}>
+              <Accordion.Panel>
+                <Accordion.Title>
+                  <h2 className="text-lg font-semibold text-[#e83775] ">
+                    {" "}
+                    Vos enfants
+                  </h2>
+                </Accordion.Title>
+                <Accordion.Content>
+                  {Creche.Enfant.map((Enfants) => (
+                    <>
+                      <div className="mt-5 pb-5 -mx-5">
+                        <div className="flex gap-x-4">
+                          {/* <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={User.imageUrl} alt="" /> */}
+                          {/* <UserCircleIcon
   className="h-12 w-12 text-[#000000] "
   aria-hidden="true"
 /> */}
-<div className="min-w-0 flex-auto">
-  <h2 className="text-lg text-[#ff4242] font-semibold">
-    Informations de vos enfants
-  </h2>
-  <div className="ld:grid-cols-4 ld:grid">
-  <div>
-  <p className="mt-1 text-sm font-semibold leading-6 text-blue-950">
-  <span className="text-gray-900"> Nom : </span>{Enfants.nom}
-  </p>
-  <p className="mt-1 font-semibold  truncate text-sm leading-6 text-blue-950">
-  <span className="text-gray-900">   Prenom : </span>{Enfants.prenom}
-  </p>
-  </div>
-  <div>
-  <p className="mt-1 font-semibold  truncate text-sm leading-6 text-blue-950">
-  <span className="text-gray-900"> Age : </span>{Enfants.Age}
-  </p>
-  <p className="mt-1 font-semibold  truncate text-sm leading-6 text-blue-950">
-  <span className="text-gray-900">     Sexe :  </span>{Enfants.Sexe} 
-        </p>
-        </div>
-</div>
-</div>
-
-
-       
-   
-</div>
-    </div>
-    </>))}
-    </Accordion.Content>
-  </Accordion.Panel>
-
-
-</Accordion>
+                          <div className="min-w-0 flex-auto">
+                            <h2 className="text-lg text-[#ff4242] font-semibold">
+                              Informations de vos enfants
+                            </h2>
+                            <div className="ld:grid-cols-4 ld:grid">
+                              <div>
+                                <p className="mt-1 text-sm font-semibold leading-6 text-blue-950">
+                                  <span className="text-gray-900"> Nom : </span>
+                                  {Enfants.nom}
+                                </p>
+                                <p className="mt-1 font-semibold  truncate text-sm leading-6 text-blue-950">
+                                  <span className="text-gray-900">
+                                    {" "}
+                                    Prenom :{" "}
+                                  </span>
+                                  {Enfants.prenom}
+                                </p>
+                              </div>
+                              <div>
+                                <p className="mt-1 font-semibold  truncate text-sm leading-6 text-blue-950">
+                                  <span className="text-gray-900"> Age : </span>
+                                  {Enfants.Age}
+                                </p>
+                                <p className="mt-1 font-semibold  truncate text-sm leading-6 text-blue-950">
+                                  <span className="text-gray-900">
+                                    {" "}
+                                    Sexe :{" "}
+                                  </span>
+                                  {Enfants.Sexe}
+                                </p>
+                              </div>
+                              <div className="mt-6 flex items-center justify-end gap-x-6">
+                                <button
+                                  type="submit"
+                                  className="text-sm rounded-md ring-2 ring-[#091098] px-4 py-1.5 bg-[#d81b1b] font-semibold leading-6 text-white hover:bg-[red] hover:scale-105 duration-100 "
+                                >
+                                  <a href="/">Annuler</a>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  ))}
+                </Accordion.Content>
+              </Accordion.Panel>
+            </Accordion>
           </li>
         ))}
       </ul>

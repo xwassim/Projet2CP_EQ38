@@ -37,6 +37,8 @@ const RdvParent = (props) => {
 
   ];
 
+{/* 
+
   function Decaler() {
     const [showButton, setShowButton] = useState(true);
     const [showPopup, setShowPopup] = useState(false);
@@ -128,6 +130,8 @@ const RdvParent = (props) => {
       </div>
     );
   }
+*/}
+  
   return (
     <>
       <nav>
@@ -185,7 +189,7 @@ const RdvParent = (props) => {
               >
                 <a href="/">Annuler</a>
               </button>
-              <Decaler />
+             {/* <Decaler /> */} 
             </div>
           </li>
         ))}
