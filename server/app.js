@@ -33,7 +33,7 @@ connectDB().then(() => {
 //routes
 app.use('/api/auth', authRoutes);
 app.use('/creche', crecheRoutes);
-app.use('/avis', avisRoutes);
+app.use('/', avisRoutes);
 app.use('/enfant', enfantRoutes);
 app.use('/api/admin', adminRoutes)
 app.use('/',SearchRoute)
