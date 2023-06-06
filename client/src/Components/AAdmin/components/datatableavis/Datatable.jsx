@@ -16,6 +16,7 @@ const AvisTable = () => {
                     Authorization: `Bearer ${newAccessToken}`,
                 },
             });
+            console.log(response.data);
             const avis = response.data.map((item) => ({
                 id: item.id,
                 username: item.username,

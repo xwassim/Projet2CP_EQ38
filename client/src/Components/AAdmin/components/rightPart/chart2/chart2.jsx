@@ -1,21 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
-import InvestmentsDB from "../../leftPart/utils/InvestmentsDB";
+import InvestmentsDB from '../../leftPart/utils/InvestmentsDB';
 
 const Graph4 = () => {
-  const [chart, setChart] = useState(null);
-  const {TopCreches}= InvestmentsDB();
+  const chartRef = useRef(null);
+  const { TopCreches } = InvestmentsDB();
   const nomCreches = TopCreches.map((item) => item.name);
   const noteEvaluation = TopCreches.map((item) => item.noteEvaluation);
 
   useEffect(() => {
-    const ctx = document.getElementById('graph4').getContext('2d');
+    const ctx = chartRef.current.getContext('2d');
 
     const data = {
       labels: nomCreches,
       datasets: [
         {
-          label: 'Nombre de réservations',
+          label: 'Note d\'évaluation',
           data: noteEvaluation,
           backgroundColor: 'rgba(251, 98, 79, 0.3)',
           borderColor: 'rgba(251, 98, 79, 1)',
@@ -38,12 +38,10 @@ const Graph4 = () => {
       options: options,
     });
 
-    setChart(chart);
-
     return () => chart.destroy();
-  }, []);
+  }, [nomCreches, noteEvaluation]);
 
-  return <canvas id="graph4"></canvas>;
+  return <canvas ref={chartRef} id="graph4"></canvas>;
 };
 
 export default Graph4;

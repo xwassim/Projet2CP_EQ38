@@ -6,6 +6,7 @@ const Enfant = require('../models/enfant')
 const Creche = require('../models/creche')
 const asyncHandler = require('express-async-handler')
 const mongoose = require("mongoose");
+const {stringify} = require("nodemon/lib/utils");
 
 
 // @desc    Get all users
@@ -33,12 +34,13 @@ const getAvis = asyncHandler(async (req, res) => {
         const username = user.nom + ' ' + user.prenom
         const creche = await Creche.findById(Listavis[i].IdCreche)
         if (creche) {
-            avis.push({ id: Listavis[i]._id, username: username, creche: creche.nomCreche, note: Listavis[i].note, commentaire: Listavis[i].commentaire })
+            avis.push({ id: Listavis[i]._id, username: username, creche: creche.nomCreche, note: Listavis[i].note, comment: Listavis[i].commentaire })
         }
         else {
-            avis.push({ id: Listavis[i]._id, username: username, creche: 'Avis Site', note: Listavis[i].note, commentaire: Listavis[i].commentaire })
+            avis.push({ id: Listavis[i]._id, username: username, creche: 'Avis Site', note: Listavis[i].note, comment: Listavis[i].commentaire[0] })
         }
     }
+    console.log (avis)
 
     res.json(avis)
 })
@@ -87,6 +89,10 @@ const getCreches = asyncHandler(async (req, res) => {
     let creches = [];
     for (let i = 0; i < Listcreches.length; i++) {
         const user = await User.findById(Listcreches[i].Proprietaire)
+        if (!user) {
+            creches.push({nurseryname : Listcreches[i].nomCreche , email: Listcreches[i].email , ownername: Listcreches[i].nomProprietaire ,id: Listcreches[i]._id , idProprietaire: 'preset' })
+            continue;
+        }
         const ownername= user.nom+''+user.prenom
         creches.push({nurseryname : Listcreches[i].nomCreche , email: Listcreches[i].email , ownername: ownername ,id: Listcreches[i]._id , idProprietaire: Listcreches[i].Proprietaire })
     }
@@ -126,11 +132,15 @@ const stats = asyncHandler(async (req, res) => {
     const nbEnfants = await Enfant.countDocuments({})
     const nbParents = await User.countDocuments({ role: 'parent' })
     const nbProprietaires = await User.countDocuments({ role: 'proprietaire' })
-    const Creches = await Creche.find({}).sort({ note: -1 }).limit(7)
+    // get the 5 creches with the highest noteEvaluation , tow creches with the same noteEvaluation will be sorted by name
+    const Creches = await Creche.find({}).sort({ NoteEvaluationTotal: -1, nomCreche: 1 }).limit(7)
+
     let TopCreches = [];
     for (let i = 0; i < Creches.length; i++) {
         // add the name of the creche and noteEvauation to the TopCreches
-        TopCreches.push({ name: Creches[i].nomCreche, noteEvaluation: Creches[i].NoteEvaluationTotal })
+        // first we convert noteEvaluation to int
+        const noteEvaluation = parseInt(Creches[i].NoteEvaluationTotal)
+        TopCreches.push({ name:stringify(Creches[i].nomCreche), noteEvaluation: noteEvaluation })
     }
     return res.json({ nbUsers, nbCreches, nbCommentaires, nbEnfants, nbParents, nbProprietaires, TopCreches })
 
