@@ -1,11 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const avisController = require('../controllers/avisController');
-const requireAuth = require('../middleware/verifyJWT');
+const verifyjwt =require('../middleware/verifyJWT');
+router.use(verifyjwt);
 
-router.route('/new').post(requireAuth,avisController.GiveAvis);
-router.route('/:id').get(avisController.getAvisCreche);
-router.route('/').get(avisController.getAvis);
-router.route('/:id').delete(avisController.deelete);
+router.route('/Avis').post(verifyjwt,avisController.GiveAvis)
+router.route('/Avis').get(verifyjwt,avisController.getAvis)
+router.route('/Avis/:id').get(verifyjwt,avisController.getAvisCreche)
+
+router.route('/Avis/:id').delete(verifyjwt,avisController.deelete)
+
+
+
 
 module.exports = router;
