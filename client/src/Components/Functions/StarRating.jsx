@@ -1,23 +1,36 @@
 import { useState } from 'react';
 import react from 'react';
+import { useRef } from 'react';
 
 
-const StarRating = () => {
+const StarRating = ({setNote}) => {
+  const ref = useRef(null);
   const [rating, setRating] = useState(0);
 
   const handleClick = (value) => {
+
+    for(var j=0 ; j< 5 ;j++)
+    {
+      if(j < value ){ ref.current.childNodes[j].style.color = "#FFD700" ;}else{
+        ref.current.childNodes[j].style.color = "#757575" ;
+      }
+     
+
+    }
+    console.log("clicked")
     setRating(value);
+    setNote(value);
+    console.log(value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // alert(`You rated this product ${rating} out of 5 stars.`);
-  };
+ 
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="flex">
+   
+      <div className="flex" ref={ref}>
+
         {[...Array(5)].map((_, i) => {
+
           const starValue = i + 1;
           const fill = starValue <= rating ? 'text-[#FFD700] ' : 'text-gray-400';
           return (
@@ -31,8 +44,8 @@ const StarRating = () => {
           );
         })}
       </div>
-      <button type="submit">Poster</button>
-    </form>
+    
+   
   );
 };
 
