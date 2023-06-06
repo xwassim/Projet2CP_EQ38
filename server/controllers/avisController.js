@@ -1,7 +1,5 @@
 const Avis = require('../models/Avis')
 const mongoose = require('mongoose')
-const jwt = require("jsonwebtoken");
-
 
 
 async function commenter(req,response){
@@ -10,23 +8,21 @@ async function commenter(req,response){
 
 
     const user=req.user;
-    const idUser = await new mongoose.Types.ObjectId(user.id)
-if (req.body.idCreche){
     const idCreche = req.body.idCreche;
+    const idUser = new mongoose.Types.ObjectId(user.id)
 
-    const ConcernedCreche = await new mongoose.Types.ObjectId(idCreche)
+    const ConcernedCreche = new mongoose.Types.ObjectId(idCreche)
     const existingAvis = await Avis.findOne({
         IdUser:idUser,
         IdCreche:idCreche,
 
     })
-
-
+   if(idCreche){
     try{
         if(!existingAvis){
             const newAvis = new  Avis({
                 NameUser: user.username,
-                commentaire: [req.body.comm] ,
+                commentaire: req.body.comm,
                 IdUser: idUser,
                 IdCreche:ConcernedCreche,
             });
@@ -34,49 +30,30 @@ if (req.body.idCreche){
             await newAvis.save()
             response.json(newAvis)
         }else{
-            const UpdatedAvis = await Avis.updateOne(
-                {_id:existingAvis.id},
-                {$push:{
-                        commentaire:req.body.comm
-                    }})
-
-            response.json("Comment inserted successfully")
+           
 
         }}catch(error){
         console.log(error)
     }
-
-}
-else {
-
-    const existingAvis = await Avis.findOne({
-        IdUser:idUser,
-        IdCreche:{ $exists: false },
-    })
-
+}else{
     try{
         if(!existingAvis){
             const newAvis = new  Avis({
                 NameUser: user.username,
-                commentaire: [req.body.comm] ,
+                commentaire: req.body.comm,
                 IdUser: idUser,
+               
             });
 
             await newAvis.save()
             response.json(newAvis)
         }else{
-            const UpdatedAvis = await Avis.updateOne(
-                {_id:existingAvis.id},
-                {$push:{
-                        commentaire:req.body.comm
-                    }})
-
-            response.json("Comment inserted successfully")
+           
 
         }}catch(error){
         console.log(error)
     }
-
+   
 }
 }
 
@@ -84,10 +61,11 @@ async function Evaluer(req,response){
 
 
     const idUser = req.user.id;
-    const user = await new mongoose.Types.ObjectId(idUser)
-    if (req.body.idCreche){
     const idCreche = req.body.idCreche;
-    const ConcernedCreche = await new mongoose.Types.ObjectId(idCreche)
+
+    const user = new mongoose.Types.ObjectId(idUser)
+    const ConcernedCreche = new mongoose.Types.ObjectId(idCreche)
+
     const existingAvis = await Avis.findOne({IdUser:idUser,IdCreche:idCreche})
 
 
@@ -116,52 +94,23 @@ async function Evaluer(req,response){
         console.log(error)
     }
 }
-else{
-        const existingAvis = await Avis.findOne({IdUser:idUser,IdCreche:{ $exists: false }})
-        try{
-            if(!existingAvis){
-                const newAvis = new  Avis({
-                    NoteEvaluation: req.body.NoteEvaluation,
-                    IdUser: user,
-                    NameUser: req.user.username,
-
-                });
-
-                await newAvis.save()
-                response.json("Note Evaluation inserted successfully")
-
-            }else{
-                const UpdatedAvis = await Avis.updateOne(
-                    {_id:existingAvis.id},
-                    {
-                        NoteEvaluation: req.body.NoteEvaluation,
-                    })
-                response.json("Note Evaluation inserted successfully")
-
-            }}catch(error){
-            console.log(error)
-        }
-
-    }
-}
 
 
 async function CommenterEtEvaluer(req,response){
 
 
     const idUser = req.user.id;
+    const idCreche = req.body.idCreche;
 
-    const user = await new mongoose.Types.ObjectId(idUser);
-    if(req.body.IdCreche){
-    const idCreche = req.body.IdCreche;
-    const ConcernedCreche = await new mongoose.Types.ObjectId(idCreche)
+    const user = new mongoose.Types.ObjectId(idUser)
+    const ConcernedCreche = new mongoose.Types.ObjectId(idCreche)
 
     const existingAvis = await Avis.findOne({IdUser:idUser,IdCreche:idCreche})
 
     try{
         if(!existingAvis){
             const newAvis = new  Avis({
-                commentaire: [req.body.comm] ,
+                commentaire: req.body.comm ,
                 NoteEvaluation: req.body.NoteEvaluation,
                 IdUser: user,
                 IdCreche:ConcernedCreche,
@@ -175,9 +124,7 @@ async function CommenterEtEvaluer(req,response){
 
             const UpdatedAvis = await Avis.updateOne(
                 {_id:existingAvis.id},
-                {$push:{
-                        commentaire:req.body.comm
-                    },
+                {
                     NoteEvaluation: req.body.NoteEvaluation,
                 })
 
@@ -186,42 +133,6 @@ async function CommenterEtEvaluer(req,response){
         }}catch(error){
 
         console.log(error)
-
-    }
-}
-else{
-
-        const existingAvis = await Avis.findOne({IdUser:idUser,IdCreche:{ $exists: false }})
-
-        try{
-            if(!existingAvis){
-                const newAvis = new  Avis({
-                    commentaire: [req.body.comm] ,
-                    NoteEvaluation: req.body.NoteEvaluation,
-                    IdUser: user,
-                    NameUser: req.user.username,
-                });
-
-                await newAvis.save()
-                response.json(newAvis)
-
-            }else{
-
-                const UpdatedAvis = await Avis.updateOne(
-                    {_id:existingAvis.id},
-                    {$push:{
-                            commentaire:req.body.comm
-                        },
-                        NoteEvaluation: req.body.NoteEvaluation,
-                    })
-
-                response.json("Note Evaluation and comment inserted successfully")
-
-            }}catch(error){
-
-            console.log(error)
-
-        }
 
     }
 }
@@ -253,43 +164,50 @@ async function getAvisCreche(req,res){
     const idCreche = req.params.id;
     const authHeader = req.headers.authorization || req.headers.Authorization;
     if (!authHeader?.startsWith('Bearer ')) {
-        const avis = await Avis.find({IdCreche:idCreche}).sort({DateCreation:-1}).limit(4);
+        const avis = await Avis.find({IdCreche:idCreche}).limit(4);
         return res.json({avis})
     }
     const token = authHeader.split(' ')[1];
     try {
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         const user = decoded.user;
-        const avisUser = await Avis.find({IdCreche:idCreche,IdUser:user.id}).sort({DateCreation:-1}).limit(4);
-        const avisOtherUser = await Avis.find({IdCreche:idCreche,IdUser:{$ne:user.id}}).sort({DateCreation:-1}).limit(4);
+        const avisUser = await Avis.find({IdCreche:idCreche,IdUser:user.id});
+        const avisOtherUser = await Avis.find({IdCreche:idCreche,IdUser:{$ne:user.id}}).limit(4);
         return res.json({avisUser,avisOtherUser})
     }
     catch (error) {
-        const avis = await Avis.find({IdCreche:idCreche}).sort({DateCreation:-1}).limit(4);
+        const avis = await Avis.find({IdCreche:idCreche}).limit(4);
         return res.json({avis})
     }
 }
+
+
 async function getAvis(req,res){
     const authHeader = req.headers.authorization || req.headers.Authorization;
     if (!authHeader?.startsWith('Bearer ')) {
-        const avis = await Avis.find();
+      
+        const avis = await Avis.find({IdCreche:{$exists:false},IdUser:{$ne:user.id}}).limit(4);
+       
         return res.json({avis})
+        
     }
     const token = authHeader.split(' ')[1];
     try {
-        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        const user = decoded.user;
-        const avisUser = await Avis.find({IdCreche:{$exists:false},IdUser:user.id}).sort({DateCreation:-1}).limit(4);
-        const avisOtherUser = await Avis.find({IdCreche:{$exists:false},IdUser:{$ne:user.id}}).sort({DateCreation:-1}).limit(4);
+        
+       const user = req.user;
+        const avisUser = await Avis.find({IdCreche:{$exists:false},IdUser:await new mongoose.Types.ObjectId( user.id)});
+        console.log(typeof user.id);
+        console.log(avisUser);
+        const avisOtherUser = await Avis.find({IdCreche:{$exists:false},IdUser:{$ne:user.id}}).limit(4);
         return res.json({avisUser,avisOtherUser})
     }
     catch (error) {
-        const avis = await Avis.find({IdCreche:{$exists:false}}).sort({DateCreation:-1}).limit(4);
+        console.log(error);
+        const avis = await Avis.find({IdCreche:{$exists:false}}).limit(4);
         return res.json({avis})
     }
 
 }
-
 async function deelete(req, res) {
     try {
         const id = req.params.id;
