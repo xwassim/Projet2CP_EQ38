@@ -5,9 +5,10 @@ import AccordionReservation from "../../PagesAccordions/AccordionReservation";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper/core';
 import 'swiper/swiper-bundle.css';
-import { useRef, useState } from "react";
+import { useRef, useState ,useEffect} from "react";
 import 'swiper/css';
 import 'swiper/css/pagination';
+import axios from '../../../api/axios';
 import 'swiper/css/free-mode';
 import { FaCalendarAlt} from "react-icons/fa";
 import { BsHouseAddFill } from "react-icons/bs"
@@ -17,13 +18,181 @@ import Evaluation from "../Evaluation";
 import { Carousel } from "flowbite-react";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import AjouterAvisCreche from "../../Functions/AjouterAvisCreche";
-
+import useRefreshToken from '../../../hooks/useRefreshToken';
 
 import StarRating from "../../Functions/StarRating";
 SwiperCore.use([Navigation]);
 
 
 function DetailsCreche(props) {
+
+
+  const [Comment, setComment] = useState('');
+  const [comments, setComments] = useState([]);
+  const [rating, setRating] = useState(-1);
+  const[avisuser,setavisuser]= useState(null);
+  const[avisother,setavisother] = useState([]);
+  let Loggedin = true;
+  const [Log, setLog] = useState(false);
+	
+  let [storeUser, setStoreUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const refresh = useRefreshToken();
+
+
+  const [userComment, setUserComment] = useState();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      console.log(props._id);
+      const newAccessToken = await refresh();
+      
+      await axios.post('../Avis',{ comm:Comment , idCreche:props._id ,NoteEvaluation:rating}
+          ,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${newAccessToken}`,
+            },
+          }
+        )
+        
+        .then((response) => {
+          
+          console.log('Comment submitted:', response.data);
+          setavisuser(response.data);
+          console.log(response.data.commentaire);
+          console.log(response.data.NameUser);
+          setComment('');
+
+        })
+        .catch((error) => {
+          console.error('Error submitting comment:', error);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    const fetchComments = async () => {
+
+   if(storeUser!=null)
+   {
+     Loggedin = true;
+     
+   }
+   if(storeUser===null)
+   {
+     Loggedin = false;
+     
+   }
+   setLog(Loggedin);
+      console.log(Loggedin);
+      if(Loggedin === true ){
+        try{
+          const newAccessToken = await refresh();
+          const response = await axios.get(`http://localhost:8080/Avis/${props._id}`, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${newAccessToken}`,
+
+            },
+          });
+          if(response.data.avisUser.length != 0){setavisuser(response.data.avisUser[0]);}
+          
+          console.log(response.data.avisUser);
+          
+       
+  
+        
+      } catch (error) {
+        console.log(error);
+      }
+      }else{
+        try {
+          const response = await axios.get(`http://localhost:8080/Avis/${props._id}`, {
+            headers: {
+              'Content-Type': 'application/json',
+              
+            },
+          });
+          setavisother(response.data.avis);
+                
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      
+    };
+    fetchComments();
+  }, []);
+  
+  function Commentuser({ comment }) {
+    const handleDelete = async () => {
+      try {
+        const newAccessToken = await refresh();
+        const response = await axios.delete(
+          `http://localhost:8080/Avis/${comment._id}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${newAccessToken}`,
+            },
+          }
+        );
+        setavisuser(null);
+        console.log('Comment deleted:', response.data);
+        
+       // Refresh the comments list after deleting the comment
+      } catch (error) {
+        console.error('Error deleting comment:', error);
+      }
+    };
+  
+    return (
+      <div className="ld:mx-16 my-10">
+                      <article
+                        
+                        className="  flex max-w-[600px] text-sm ld:text-base   p-3  flex-col items-start justify-between  "
+                      >
+                        
+                        <div className="relative mt-3 flex items-center gap-x-4">
+                      
+                          <UserCircleIcon
+                            className="h-11 w-11 text-gray-700 "
+                            aria-hidden="true"
+                          />
+                          <div className="   leading-4">
+                            <p className="font-semibold text-gray-900">
+                              <a>
+                                <span className="absolute inset-0" />
+                                {comment.NameUser}
+                              </a>
+                            </p>
+                            <p className="text-blue-950"></p>
+                          </div>
+                        </div>
+    
+                        <div className="group relative">
+                          <p className="mt-2 line-clamp-5    leading-6 text-blue-950">
+                            {comment.commentaire}
+                          </p>
+                        </div>
+                        
+                      </article>
+                      <div className='flex justify-end'>
+                      <button onClick={handleDelete} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mt-2">
+                             Supprimer
+                       </button>
+                      </div>                    
+                    </div>
+      
+       
+ 
+    );
+  }
+
+  
   const sliderRef = useRef();
   const name = props.name
   const Images = props.image;
@@ -51,6 +220,57 @@ function DetailsCreche(props) {
       setShowButton(true);
     };
 
+
+
+
+
+
+
+
+
+    const StarRating = () => {
+      const [rating, setRating] = useState(0);
+  
+      const handleClick = (value) => {
+        setRating(value);
+      };
+  
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        // alert(`You rated this product ${rating} out of 5 stars.`);
+      };
+  
+      return (
+        <form onSubmit={handleSubmit}>
+          <div className="flex">
+            {[...Array(5)].map((_, i) => {
+              const starValue = i + 1;
+              const fill =
+                starValue <= rating ? "text-yellow-300 " : "text-gray-400";
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  className={`text-3xl text-gray-400 ${fill}`}
+                  onClick={() => handleClick(starValue)}
+                >
+                  ★
+                </button>
+              );
+            })}
+          </div>
+        </form>
+      );
+    };
+
+
+
+    
+
+
+
+
+    
  
   
     return (
@@ -452,7 +672,47 @@ return (
             <h2 className=" text-2xl text-rose-900 font-semibold ">Note gloable : </h2><div className="ml-2 text-xl"><Evaluation numStars={NoteC}  ></Evaluation> </div> </div>
 
       <div>
-        <AjouterAvisCreche/>
+         {/***************************************************************************************************************************************** */}
+         <>
+         {(Log === true && avisuser == null) ? (
+          <>
+          <div>  <div className="flex flex-row my-3">
+          <h2 className="ld:text-xl text-lg font-semibold text-blue-950">
+            Evaluer:{" "}
+          </h2>
+          <div className="ml-5 -mt-2">
+            <StarRating  setNote={setRating} />
+          </div>
+        </div></div>
+      <form class="mb-6" onSubmit={handleSubmit}>
+      
+        <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200n bg-gray-800n border-gray-700">
+          <label for="comment" class="sr-only">
+            Votre commentaire sur le site
+          </label>
+          <textarea
+            id="comment"
+            value={Comment}
+            onChange={(event) => setComment(event.target.value)}
+            rows="6"
+            class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-nonen  placeholder-gray-400 "
+            placeholder="Ecrire un commentaire..."
+            required
+          ></textarea>
+        </div>
+      
+       
+      <div> <button type="submit">Poster</button></div>
+         
+       
+      </form>
+      </>
+         )
+      : (
+        <div></div>
+      )}
+    </>
+         {/***************************************************************************************************************************************** */}
         </div> 
           
           <div className="   gap-4 h-[520px] ld:h-96 max-w-[1400px]  bg-[#fdbdbc]  rounded-xl ">
@@ -488,7 +748,7 @@ return (
 
                     <div className="group relative">
                       <p className="mt-2 line-clamp-5    leading-6 text-blue-950">
-                        {post.description}
+                        {post.description} 
                       </p>
                     </div>
                   </article>
@@ -614,6 +874,16 @@ return (
    
  
         </div>
+        {(avisuser != null) ? (
+          <div className="   gap-4 h-[510px] ld:h-96  max-w-[1400px]  bg-[#fdbdbc]  rounded-xl ">
+           <Commentuser  comment={avisuser} />
+          </div>
+           )
+           : (
+            <div></div>
+          )
+           
+        }
         </div>
       </div>
       <Footer />
