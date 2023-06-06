@@ -4,7 +4,7 @@ export const userColumns = [
       field: "nurseryname",
       headerName: "Nom de la crèche ",
       width: 150,
-  
+
     },
     { field: "id2", headerName: "ID propriétaire  ", width: 110 },
     {
@@ -12,16 +12,16 @@ export const userColumns = [
       headerName: "E-mail propriétaire ",
       width: 220,
     },
-  
+
     {
         field: "ownername",
         headerName: "Nom du propriétaire ",
         width: 170,
-    
+
       },
-    
+
   ];
-  
+
   //temporary data
   export const userRows = [
     {
@@ -66,6 +66,5 @@ export const userColumns = [
         id2: 4,
         email: "1snow@gmail.com",
         ownername: "wassim",
-      },    
+      },
   ];
-  

@@ -42,7 +42,11 @@ import LogOut from './Components/Functions/LogOut';
 import Unauthorized from './Components/Unauthorized';
 import RequireAuth from './Components/RequireAuth';
 import RequirenotAuth from './Components/RequirenotAuth';
-
+import SiteStats from './Components/AAdmin/components/Statistiques';
+import StatsAvis from './Components/AAdmin/components/avis';
+import StatsCreches from './Components/AAdmin/components/creches';
+import StatsEnfants from './Components/AAdmin/components/enfants';
+import StatsUsers from './Components/AAdmin/components/users';
 
 //admin
 // import AdminHome from './Components/Aadmin/Statistiques'
@@ -130,7 +134,16 @@ function App() {
      <Route path="/Choice" element={<PageChoice />} />         
        <Route path='/ForgotPassword' element={<ForgotPassword/>} />
       <Route path='/MailSent' element={<MailSent/>} />
-       */} 
+       */}
+      {/* admin */}
+      <Route element={<RequireAuth allowedRoles={[ADMIN]} />} >
+        <Route path='/StatsUser' element={<StatsUsers/>}/>
+        <Route path='/StatsCreches' element={<StatsCreches/>}/>
+        <Route path='/StatsEnfants' element={<StatsEnfants/>}/>
+        <Route path='/StatsComments' element={<StatsAvis/>}/>
+        <Route path='/HomeAdmin' element={<SiteStats/>}/>
+      </Route>
+
     
 
       {/* admin */}

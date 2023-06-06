@@ -55,6 +55,7 @@ export default function Navbar() {
   const [loggedin, SetLoggedin] = useState(false)
   const PARENT = "parent"
   const PROP = "proprietaire"
+  const ADMIN = 'admin'
   const [parent, setparent] = useState(false)
 
   let storeUser;
@@ -70,14 +71,22 @@ export default function Navbar() {
           { name: "Rechercher", href: "/Search", current: false },
           { name: "A propos de nous", href: "/AboutUs", current: false },
         ])
-      } else {
+      } else if (storeUser.user.roles === PROP){
         setnavgi([
           { name: "Mes Enfants", href: "/MesEnfants", current: false },
           { name: "Mes Creches", href: "/MesCreches", current: false },
           { name: "Rechercher", href: "/Search", current: false },
           { name: "A propos de nous", href: "/AboutUs", current: false },
         ])
-
+      }
+      else{
+        setnavgi([
+          { name: "Mes Enfants", href: "/MesEnfants", current: false },
+          { name: "Mes Creches", href: "/MesCreches", current: false },
+          { name: "Rechercher", href: "/Search", current: false },
+          { name: "A propos de nous", href: "/AboutUs", current: false },
+          { name: "Page Admin", href: "/HomeAdmin", current: false },
+        ])
       }
 
 

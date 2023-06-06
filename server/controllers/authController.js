@@ -274,44 +274,64 @@ const resetPassword = asyncHandler(async (req, res) => {
     }
 });
 const changePassword = asyncHandler(async (req, res) => {
-
-    //those are the fields that the user will send
-    const {oldPassword, newPassword} = req.body;
-    if (!oldPassword || !newPassword) {
-        res.status(400).json({message: 'Please fill all fields'});
-    }
-    const user = await User.findById(req.user.id);
     try {
-        if (!user || !bcrypt.compare(oldPassword, user.password)) {
-            res.status(401).json({message: 'Invalid password '});
+        // Retrieve the oldPassword and newPassword from the request body
+        const { oldPassword, newPassword } = req.body;
+        console.log (oldPassword);
+        console.log (newPassword);
+
+        // Check if both oldPassword and newPassword are provided
+        if (!oldPassword || !newPassword) {
+            return res.status(400).json({ message: 'Please fill all fields' });
         }
+
+        // Find the user by their ID
+        const user = await User.findById(req.user.id);
+
+        // Compare the old password with the one in the database
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        console.log (isMatch);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Old password is incorrect' });
+        }
+
+        // Check if the newPassword meets the required criteria
         if (!validator.isStrongPassword(newPassword)) {
-            res.status(400).json({message: 'Please enter a strong password'});
+            return res.status(400).json({ message: 'Please enter a strong password' });
         }
+
+        // Hash the new password
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        await user.updateOne({password: hashedPassword});
-        //update the token
+
+        // Update the user's password
+        await user.updateOne({ password: hashedPassword });
+
+        // Update the token
         createRefreshToken(res, user);
         const accessToken = createToken(user);
+
+        // Return the updated user's important data
         const userImportansData = {
             username: user.username,
             email: user.email,
             roles: user.role,
-            nom : user.nom,
-            prenom : user.prenom,
-            sexe : user.sexe,
-            adresse : user.adresse,
-            telephone : user.telephone,
-            wilaya : user.wilaya,
-            commune : user.commune,
-            codePostal : user.codePostal,
-            confirmationToken : user.confirmationToken,
-        }
-        res.status(200).json({accessToken, userImportansData});
+            nom: user.nom,
+            prenom: user.prenom,
+            sexe: user.sexe,
+            adresse: user.adresse,
+            telephone: user.telephone,
+            wilaya: user.wilaya,
+            commune: user.commune,
+            codePostal: user.codePostal,
+            confirmationToken: user.confirmationToken,
+        };
+        console.log (userImportansData);
+        res.status(200).json({ accessToken, userImportansData });
     } catch (err) {
-        res.status(401).json({message: 'Invalid or expired refresh token'});
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
+
 
 const verifyEmail = asyncHandler(async (req, res) => {
     const {confirmationToken} = req.params;

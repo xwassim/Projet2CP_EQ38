@@ -6,7 +6,7 @@ export const navLinks = [
     id: 0,
     title: "Statistiques",
     icon: <AiOutlineFundView className="h-6 w-6 nav-icon text-[#191A43]" />,
-    path: "/SiteStats",
+    path: "/HomeAdmin",
   },
   {
     id: 1,
@@ -26,11 +26,6 @@ export const navLinks = [
     icon: <AiOutlineMessage className=" h-6 w-6 nav-icon text-[#191A43]" />,
     path: "/StatsComments",
   },
-  {
-    id: 4,
-    title: "Gestion des Enfants",
-    icon: <AiOutlineSmile className="h-6 w-6 nav-icon text-[#191A43]" />,
-    path: "/StatsEnfants",
-  },
+
  
 ];

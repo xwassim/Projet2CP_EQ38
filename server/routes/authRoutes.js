@@ -10,8 +10,8 @@ router.route('/refresh').get(authController.refresh);
 router.route('/logout').get(requireAuth,authController.logout);
 router.route('/forgotPassword').post(authController.forgotPassword);
 router.route('/resetPassword/:token').patch(authController.resetPassword);
-router.route('/changePassword').put(requireAuth,authController.changePassword);
+router.route('/changePassword').patch(requireAuth,authController.changePassword);
 router.route('/verifyEmail/:confirmationToken').patch(authController.verifyEmail);
-router.route('/update').put(requireAuth,authController.updateUser);
+router.route('/update').patch(requireAuth,authController.updateUser);
 
 module.exports = router;

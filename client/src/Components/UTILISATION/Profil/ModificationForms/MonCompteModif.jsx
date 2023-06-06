@@ -68,9 +68,10 @@ const MonCompteModif = () => {
 
     try {
       const newAccessToken = await refresh();
-      const response = await axios.put(
+      console.log (newAccessToken);
+      const response = await axios.patch(
         'auth/changePassword',
-        JSON.stringify({ oldpassword, newpassword }),
+        JSON.stringify({ oldPassword : oldpassword, newPassword:newpassword }),
         {
           headers: {
             'Content-Type': 'application/json',
@@ -79,15 +80,21 @@ const MonCompteModif = () => {
           withCredentials: true,
         }
       );
-
-      setSuccess(true);
-      await logout();
-      localStorage.removeItem('user');
-      window.location.reload();
-      window.location.href = '/'
-
-
-
+        console.log(response);
+      if (response.status === 200) {
+        setSuccess(true);
+        setTimeout(() => {
+          logout();
+          // clear the local storage and cookies
+          localStorage.clear();
+          document.cookie.split(";").forEach((c) => {
+            document.cookie = c
+                .replace(/^ +/, "")
+                .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+          });
+          window.location.href = "/login";
+          }, 2000);
+      }
 
     } catch (err) {
       if (!err?.response) {
@@ -104,7 +111,7 @@ const MonCompteModif = () => {
   return (
     <>
       <div className=" mx-[1%] ld:mx-[5%]">
-        <form className="FormInscription" onSubmit={handleSubmit}>
+        <form className="FormInscription" >
           <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 
             <div className="sm:col-span-5">
@@ -189,7 +196,7 @@ const MonCompteModif = () => {
               </label>
               <div className='mt-2'>
                 <div className="relative">
-                  <input             
+                  <input
                    onChange={(e) => setMatchPwd(e.target.value)}
                    value={matchPwd}
                    required
@@ -216,11 +223,11 @@ const MonCompteModif = () => {
               </div>
               <p id="newPswdConfirmation" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
                         Le mot de passe n'est pas identique
-                        </p> 
+                        </p>
             </div>
           </div>
 
-        
+
           <div className="mt-6 flex items-center justify-end gap-x-6">
             <button
               type="button"
@@ -230,13 +237,19 @@ const MonCompteModif = () => {
             </button>
             <button
               type="submit"
+              onClick={handleSubmit}
               className="rounded-md bg-red-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-900 hover:scale-105 duration-100 ring-2 ring-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              <a href="/MonProfil">Sauvgarder</a>
+              <a >Sauvgarder</a>
             </button>
           </div>
         </form>
       </div>
+      {success && (
+          <div className="popup">
+            <p>Password changed successfully!</p>
+          </div>
+      )}
     </>
   );
 };

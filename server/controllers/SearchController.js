@@ -11,8 +11,6 @@ async function findCrecheByFilters( req,response) {
     try{
          Creche.find(filters).sort({NoteEvaluationTotal:-1}).limit(20)
         .then(data=>{
-            console.log(data);
-            console.log(filters)
             response.json(data);
         })
         
@@ -34,7 +32,6 @@ async function getRandomCreches(req,response) {
     try{
          Creche.find(filters)
         .then(data=>{
-            console.log(data);
             response.json(data);
         })
         

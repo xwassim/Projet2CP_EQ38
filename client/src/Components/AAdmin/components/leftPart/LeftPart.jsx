@@ -1,11 +1,12 @@
 import React from "react";
 import InvestItem from "./InvestItem";
-import { InvestDB } from "./utils/InvestmentsDB";
+import InvestmentsDB from "./utils/InvestmentsDB";
 
 import {FaUserFriends,FaSchool} from "react-icons/fa";
 
 
 function LeftPart() {
+  const {InvestDB,nbUsers , nbCreches}= InvestmentsDB();
   return (
     <div className=" col-span-2 min-h-[90vh] border-r border-gray-200 items-start justify-start flex flex-col w-full ">
       {/* top section*/}
@@ -23,7 +24,7 @@ function LeftPart() {
           </span>
           <span className="items-center justify-center flex flex-col">
             <h2> Nombre de crèches </h2>
-            <h2 className="font-bold text-xl text-blue-950">1860 </h2>
+            <h2 className="font-bold text-xl text-blue-950">{nbCreches} </h2>
           </span>
         </div>
         {/* duplicate above ☝ */}
@@ -33,7 +34,7 @@ function LeftPart() {
           </span>
           <span className="items-center justify-center flex flex-col">
             <h2> Nombre d'utillisateurs </h2>
-            <h2 className="font-bold text-xl text-blue-950">36000 </h2>
+            <h2 className="font-bold text-xl text-blue-950">{nbUsers} </h2>
           </span>
         </div>
        
