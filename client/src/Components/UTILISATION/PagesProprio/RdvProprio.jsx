@@ -109,13 +109,13 @@ const RdvProprio = () => {
                 type="submit"
                 className="text-sm rounded-md ring-2 ring-[#091098] px-4 py-1.5 bg-[#d81b1b] font-semibold leading-6 text-white hover:bg-[red] hover:scale-105 duration-100 "
               >
-                <a href="/Authentification">Refuser</a>
+                <a>Refuser</a>
               </button>
               <button
                 type="submit"
                 className="rounded-md bg-[#1aea1a] px-3 py-2 text-sm font-semibold text-blue-950 shadow-sm hover:bg-[#28ff28] hover:scale-105 duration-100 ring-2 ring-[#091098] "
               >
-                <a href="/Authentification">Accepter</a>
+                <a>Accepter</a>
               </button>
             </div>
           </li>
