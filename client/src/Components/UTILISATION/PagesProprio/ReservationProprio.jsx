@@ -654,9 +654,7 @@ const ReservationProprio = () => {
           </li>
         ))}
       </ul>
-      <footer className="mt-10">
-        <Footer />
-      </footer>
+     
     </>
   );
 };
