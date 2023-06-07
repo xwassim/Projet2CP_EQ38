@@ -339,9 +339,7 @@ const ReservationParent = () => {
           </li>
         ))}
       </ul>
-      <footer className="mt-10">
-        <Footer />
-      </footer>
+   
     </>
   );
 };
